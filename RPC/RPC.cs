@@ -80,7 +80,15 @@ namespace ILCallTest
                 generator.Emit(OpCodes.Ldelem, typeof(object));
                 if (parameter.ParameterType.IsClass)
                 {
-                    generator.Emit(OpCodes.Castclass, parameter.ParameterType);
+                    if (parameter.ParameterType.IsArray && typeof(object[]) != parameter.ParameterType)
+                    {
+                        MethodInfo castMI = typeof(RPC).GetMethod("CastArray").MakeGenericMethod(new Type[] { parameter.ParameterType.GetElementType() });
+                        generator.Emit(OpCodes.Call, castMI);
+                    }
+                    else
+                    {
+                        generator.Emit(OpCodes.Castclass, parameter.ParameterType);
+                    }
                 }
                 else
                 {
@@ -118,6 +126,11 @@ namespace ILCallTest
         public object route(string controller, string method, object[] parameter)
         {
             return (this.controller[controller].methods[method])(parameter);
+        }
+
+        public static T[] CastArray<T>(object[] array)
+        {
+            return array.Cast<T>().ToArray();
         }
     }
 }

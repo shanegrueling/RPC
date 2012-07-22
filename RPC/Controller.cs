@@ -73,5 +73,31 @@ namespace ILCallTest
             t.world = world;
             return t;
         }
+
+        [RPCMethod("returnAnArray")]
+        public int[] returnAnArray()
+        {
+            return new int[] { 10, 12, 13};
+        }
+
+        [RPCMethod("arrayAsParameter")]
+        public int[] arrayAsParameter(int[] array)
+        {
+            for(int i = 0; i < array.Count(); ++i)
+            {
+                array[i] *= 2;
+            }
+            return array;
+        }
+
+        [RPCMethod("classArrayAsParameter")]
+        public TestClass[] classArrayAsParameter(TestClass[] array)
+        {
+            for (int i = 0; i < array.Count(); ++i)
+            {
+                array[i].world = i.ToString();
+            }
+            return array;
+        }
     }
 }
