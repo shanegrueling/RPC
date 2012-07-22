@@ -99,5 +99,15 @@ namespace ILCallTest
             }
             return array;
         }
+
+        [RPCMethod("genericAsParameter")]
+        public TestClass[] genericAsParameter(List<TestClass> array)
+        {
+            for (int i = 0; i < array.Count(); ++i)
+            {
+                array[i].world = i.ToString();
+            }
+            return array.ToArray();
+        }
     }
 }

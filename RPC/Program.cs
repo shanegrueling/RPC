@@ -34,6 +34,15 @@ namespace ILCallTest
                 Console.WriteLine(a);
             }
 
+            List<TestClass> l = new List<TestClass>();
+            l.Add(new TestClass());
+            l.Add(new TestClass());
+
+            foreach (object a in (TestClass[])rpc.route("Test2", "genericAsParameter", new object[] { l }))
+            {
+                Console.WriteLine(a);
+            }
+
             Console.ReadKey();
         }
     }
